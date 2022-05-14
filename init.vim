@@ -95,3 +95,5 @@ set t_Co=256
 lua << EOF
 require'hop'.setup()
 EOF
+
+noremap <c-space> <cmd>HopWord<CR>
