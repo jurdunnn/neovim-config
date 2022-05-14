@@ -91,3 +91,7 @@ set t_Co=256
 "colorscheme mine
 "let g:airline_theme='onehalfdark'
 
+" Hop
+lua << EOF
+require'hop'.setup()
+EOF
