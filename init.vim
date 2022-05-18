@@ -38,7 +38,7 @@ set equalalways
 "
 " FZF Settings
 "
-let g:fzf_layout = { 'down': '40%' }
+" let g:fzf_layout = { 'down': '40%' }
 
 "
 " Enable persistent undo
@@ -53,6 +53,11 @@ set number
 set signcolumn=no 
 
 "
+" Set Number of rows from cursor to begin scrolling
+"
+set scrolloff=8
+
+"
 " Git Gutter Customizations
 " 
 "highlight clear SignColumn
@@ -63,7 +68,7 @@ highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 "
 " Enable Mouse Controls
 "
-"set mouse=a
+set mouse=a
 
 "
 " Ignore Case
