@@ -107,3 +107,17 @@ vim.diagnostic.config({
         border = "rounded",
     },
 })
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+local servers = { 'intelephense', 'phpactor', 'tailwindcss', 'sumneko_lua', 'psalm' }
+for _, lsp in pairs(servers) do
+    require('lspconfig')[lsp].setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        flags = {
+            debounce_text_changes = 150,
+        }
+    }
+end

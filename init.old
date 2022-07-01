@@ -1,104 +1,140 @@
-call plug#begin('~/.local/share/nvim/plugged')
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'github/copilot.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'phaazon/hop.nvim'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'StanAngeloff/php.vim'
-Plug 'phpactor/phpactor'
-Plug 'unblevable/quick-scope'
-Plug 'camilledejoye/phpactor-mappings'
-Plug 'Chiel92/vim-autoformat'
-Plug 'jremmen/vim-ripgrep'
-Plug 'sheerun/vim-polyglot'
-Plug 'noahfrederick/vim-laravel'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-call plug#end()
+require("keybindings")
+require("layout")
+require("plugins")
 
-" Key bindings
-nnoremap <C-p> :FZF<CR>
-nnoremap <C-l> :Autoformat<CR>
-nnoremap <C-r> :Ripgrep<CR>
-nnoremap <C-b> :Buffers<CR>
-map <silent> <Space> :noh<CR>
+--Plugin Setup
+--require('hardline').setup { }
+local colors = {
+  blue   = '#80a0ff',
+  cyan   = '#79dac8',
+  black  = '#080808',
+  white  = '#c6c6c6',
+  red    = '#ff5189',
+  violet = '#d183e8',
+  grey   = '#303030',
+  none   = nil
+}
 
-" Tab Settings
-set tabstop=4
-set shiftwidth=4
-set expandtab
+local bubbles_theme = {
+  normal = {
+    a = { fg = colors.black, bg = colors.violet },
+    b = { fg = colors.white, bg = colors.grey },
+    c = { fg = colors.none, bg = colors.none },
+  },
 
-" Default split to horisontal
-set equalalways
+  insert = { a = { fg = colors.black, bg = colors.blue } },
+  visual = { a = { fg = colors.black, bg = colors.cyan } },
+  replace = { a = { fg = colors.black, bg = colors.red } },
 
-"
-" FZF Settings
-"
-" let g:fzf_layout = { 'down': '40%' }
+  inactive = {
+    a = { fg = colors.none, bg = colors.none },
+    b = { fg = colors.none, bg = colors.none },
+    c = { fg = colors.none, bg = colors.none },
+  },
+}
 
-"
-" Enable persistent undo
-"
-set undofile
+require('lualine').setup {
+  options = {
+    theme = bubbles_theme,
+    globalstatus = true,
+    component_separators = '|',
+    section_separators = { left = '', right = '' },
+  },
+  sections = {
+    lualine_a = {
+      { 'mode', separator = { left = '' }, padding = 2,},
+    },
+    lualine_b = { 'filename', 'branch' },
+    lualine_c = { 'fileformat' },
+    lualine_x = {},
+    lualine_y = { 'filetype', 'progress' },
+    lualine_z = {
+      { 'location', separator = { right = '' }, padding = 2 },
+    },
+  },
+  inactive_sections = {
+    lualine_a = { 'filename' },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = { 'location' },
+  },
+  tabline = {},
+  extensions = {},
+}
 
-"
-" Enable Line Numbers
-"
-set number
-"set nuw=6
-set signcolumn=no 
+require('hop').setup { }
+require('nvim-tree').setup { }
+require('gitsigns').setup { 
+  current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+}
+require('telescope').setup {
+    defaults = {
+        layout_config = {
+          vertical = { width = 0.5 }
+          -- other layout configuration here
+        },
+        -- other defaults configuration here
+    },
+    pickers = {
+        find_files = {
+          theme = "dropdown",
+        },
+        live_grep = {
+            theme = "dropdown",
+        },
+        buffers = {
+            theme = "ivy",
+        }
+    },
+}
 
-"
-" Set Number of rows from cursor to begin scrolling
-"
-set scrolloff=8
+local opt = vim.opt
+local wo = vim.wo
 
-"
-" Git Gutter Customizations
-" 
-"highlight clear SignColumn
-highlight GitGutterAdd    guifg=#009900 ctermfg=2
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+--Colour Scheme
+opt.termguicolors = true
 
-"
-" Enable Mouse Controls
-"
-set mouse=a
+require("github-theme").setup({
+  theme_style = "dimmed",
+  function_style = "italic",
+  sidebars = {"qf", "vista_kind", "terminal", "packer"},
 
-"
-" Ignore Case
-"
-set ignorecase
+  -- Change the "hint" color to the "orange" color, and make the "error" color bright red
+  colors = {hint = "orange", error = "#ff0000"},
 
-"
-" Smart Case
-"
-set smartcase
+  -- Overwrite the highlight groups
+  overrides = function(c)
+    return {
+      htmlTag = {fg = c.red, bg = "#282c34", sp = c.hint, style = "underline"},
+      DiagnosticHint = {link = "LspDiagnosticsDefaultHint"},
+      -- this will remove the highlight groups
+      TSField = {},
+    }
+  end
+})
 
-"
-" Nvim GUI Customizations
-"
-hi statusline ctermbg=NONE cterm=NONE
-"hi CursorLine   cterm=NONE ctermbg=NONE ctermfg=white guibg=NONE guifg=white
+--Enable Mouse
+opt.mouse = 'a'
 
-syntax on
+--Line Numbers
+wo.number = true
 
-set t_Co=256
+--Tab Settings
+opt.expandtab = true
+opt.smarttab = true
+opt.shiftwidth = 4
+opt.tabstop = 4
 
-"set cursorline
+opt.completeopt = { "menu" , "menuone" , "noselect", "noinsert" }
 
-"colorscheme onehalfdark
-"colorscheme mine
-"let g:airline_theme='onehalfdark'
+opt.ignorecase = true
+opt.smartcase = true
 
-" Hop
-lua << EOF
-require'hop'.setup()
-EOF
+opt.clipboard = 'unnamedplus'
 
-noremap <c-space> <cmd>HopWord<CR>
+opt.shortmess:append("c")
+opt.encoding = "utf-8"
+opt.cmdheight=2

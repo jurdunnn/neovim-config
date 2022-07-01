@@ -58,7 +58,11 @@ return require('packer').startup(function(use)
   use_rocks 'penlight'
   use_rocks {'lua-resty-http', 'lpeg'}
 
-  use {'ojroques/nvim-hardline'}
+  --use {'ojroques/nvim-hardline'}
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
   use {'tpope/vim-commentary'}
   use {'tpope/vim-surround'}
   use {'tpope/vim-abolish'}
@@ -76,6 +80,7 @@ return require('packer').startup(function(use)
   --THEMES
   use 'bluz71/vim-nightfly-guicolors'
   use 'arcticicestudio/nord-vim'
+  use "projekt0n/github-nvim-theme"
 
   use {
       'phaazon/hop.nvim',

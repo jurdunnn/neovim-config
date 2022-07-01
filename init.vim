@@ -1,7 +1,4 @@
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'github/copilot.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -15,17 +12,27 @@ Plug 'unblevable/quick-scope'
 Plug 'camilledejoye/phpactor-mappings'
 Plug 'Chiel92/vim-autoformat'
 Plug 'jremmen/vim-ripgrep'
+Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'noahfrederick/vim-laravel'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'windwp/nvim-autopairs'
 call plug#end()
 
 " Key bindings
-nnoremap <C-p> :FZF<CR>
 nnoremap <C-l> :Autoformat<CR>
-nnoremap <C-r> :Ripgrep<CR>
 nnoremap <C-b> :Buffers<CR>
 map <silent> <Space> :noh<CR>
+
+" Hop
+noremap <c-space> <cmd>HopWord<CR>
+
+" Telescope
+nnoremap <C-p> <cmd>Telescope find_files<CR>
+nnoremap <C-g> <cmd>Telescope live_grep<CR>
+nnoremap <C-b> <cmd>Telescope buffers<CR>
 
 " Tab Settings
 set tabstop=4
@@ -36,11 +43,6 @@ set expandtab
 set equalalways
 
 "
-" FZF Settings
-"
-" let g:fzf_layout = { 'down': '40%' }
-
-"
 " Enable persistent undo
 "
 set undofile
@@ -49,21 +51,12 @@ set undofile
 " Enable Line Numbers
 "
 set number
-"set nuw=6
-set signcolumn=no 
+set signcolumn=yes
 
 "
 " Set Number of rows from cursor to begin scrolling
 "
 set scrolloff=8
-
-"
-" Git Gutter Customizations
-" 
-"highlight clear SignColumn
-highlight GitGutterAdd    guifg=#009900 ctermfg=2
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 "
 " Enable Mouse Controls
@@ -80,25 +73,24 @@ set ignorecase
 "
 set smartcase
 
+" Clip board
+set clipboard+=unnamedplus
+
 "
 " Nvim GUI Customizations
 "
 hi statusline ctermbg=NONE cterm=NONE
-"hi CursorLine   cterm=NONE ctermbg=NONE ctermfg=white guibg=NONE guifg=white
-
 syntax on
-
 set t_Co=256
-
-"set cursorline
-
-"colorscheme onehalfdark
-"colorscheme mine
-"let g:airline_theme='onehalfdark'
+colorscheme github_dark
 
 " Hop
 lua << EOF
 require'hop'.setup()
 EOF
 
-noremap <c-space> <cmd>HopWord<CR>
+lua << EOF
+require('telescope').setup{
+  -- ...
+}
+EOF
