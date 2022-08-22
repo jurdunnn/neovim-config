@@ -19,11 +19,16 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'windwp/nvim-autopairs'
+Plug 'sainnhe/edge'
+Plug 'arcticicestudio/nord-vim'
+Plug 'brooth/far.vim'
 call plug#end()
 
 " Key bindings
 nnoremap <C-l> :Autoformat<CR>
 nnoremap <C-b> :Buffers<CR>
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 map <silent> <Space> :noh<CR>
 
 " Hop
@@ -82,7 +87,18 @@ set clipboard+=unnamedplus
 hi statusline ctermbg=NONE cterm=NONE
 syntax on
 set t_Co=256
-colorscheme github_dark
+
+
+" Important!!
+if has('termguicolors')
+    set termguicolors
+endif
+
+"
+" Colour Scheme
+" 
+let g:edge_style = 'aura'
+colorscheme nord
 
 " Hop
 lua << EOF

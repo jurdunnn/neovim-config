@@ -1,0 +1,49 @@
+{
+    "codeLens.enable": true,
+    "codeLens.position": "eol",
+    "coc.preferences.extensionUpdateCheck": "daily",
+    "coc.preferences.enableMessageDialog": true,
+    "coc.preferences.formatOnType": true,
+    "coc.preferences.willSaveHandlerTimeout": 1000,
+    "coc.preferences.enableLinkedEditing": true,
+    "coc.preferences.formatOnSaveFiletypes": [
+        "c",
+        "go",
+        "python",
+        "rust",
+        "markdown",
+        "javascript",
+        "typescript",
+        "json",
+        "jsonc",
+        "php"
+    ],
+    "diagnostic.floatConfig": {
+        "border": true
+    },
+    "diagnostic.format": "%message [%source]",
+    "diagnostic.virtualText": true,
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic.separateRelatedInformationAsDiagnostics": true,
+    "hover.floatConfig": {
+        "border": true
+    },
+    "list.normalMappings": {
+        "<C-c>": "do:exit"
+    },
+    "list.insertMappings": {
+        "<C-c>": "do:exit"
+    },
+    "signature.target": "echo",
+    "suggest.detailField": "abbr",
+    "suggest.defaultSortMethod": "none",
+    "suggest.selection": "recentlyUsedByPrefix",
+    "suggest.floatConfig": {
+        "border": true
+    },
+    "signature.floatConfig": {
+        "rounded": true,
+        "border": true
+    },
+    "languageserver": {}
+}
