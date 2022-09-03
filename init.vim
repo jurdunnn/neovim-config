@@ -27,8 +27,10 @@ call plug#end()
 " Key bindings
 nnoremap <C-l> :Autoformat<CR>
 nnoremap <C-b> :Buffers<CR>
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <silent><expr> <Tab> coc#pum#visible() ? coc#pum#confirm() : "\<C-n>"
+inoremap <silent><expr> <S-Tab> coc#pum#visible() ? coc#pum#confirm() : "\<C-p>"
 map <silent> <Space> :noh<CR>
 
 " Hop
