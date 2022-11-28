@@ -28,6 +28,9 @@ Plug 'windwp/nvim-autopairs'
 Plug 'sainnhe/edge'
 Plug 'brooth/far.vim'
 Plug 'vimpostor/vim-tpipeline' "Integrates Nvim statusbar inside tmux statusbar
+"Tabs
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'romgrk/barbar.nvim'
 "Themes
 Plug 'EdenEast/nightfox.nvim'
 Plug 'arcticicestudio/nord-vim'
@@ -44,6 +47,7 @@ map <silent> <Space> :noh<CR>
 
 " Hop
 noremap <c-space> <cmd>HopWord<CR>
+noremap <c-x> <cmd>HopAnywhere<CR>
 
 " Telescope
 nnoremap <C-p> <cmd>Telescope find_files hidden=true<CR>
@@ -62,6 +66,10 @@ nnoremap <C-f> :NERDTreeFind<CR>
 set tabstop=4
 set shiftwidth=4
 set expandtab
+
+"Hide bar bar if there is only a singe tab
+let bufferline = get(g:, 'bufferline', {})
+let bufferline.auto_hide = v:true
 
 "Fugative gitlab 
 let g:fugitive_gitlab_domains = ['https://gitlab.enovate.co.uk/']
