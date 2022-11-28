@@ -53,8 +53,9 @@ noremap <c-x> <cmd>HopAnywhere<CR>
 nnoremap <C-p> <cmd>Telescope find_files hidden=true<CR>
 nnoremap <C-g> <cmd>Telescope live_grep<CR>
 nnoremap <C-b> <cmd>Telescope buffers<CR>
-nnoremap <C-h> :tabprevious<CR>
-nnoremap <C-l> :tabnext<CR>
+
+nnoremap <C-h> :BufferPrevious<CR>
+nnoremap <C-l> :BufferNext<CR>
 
 " Nerd Tree
 nnoremap <leader>n :NERDTreeFocus<CR>
