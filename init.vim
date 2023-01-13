@@ -26,14 +26,17 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'windwp/nvim-autopairs'
 Plug 'sainnhe/edge'
+Plug 'shaunsingh/nord.nvim'
 Plug 'brooth/far.vim'
 Plug 'vimpostor/vim-tpipeline' "Integrates Nvim statusbar inside tmux statusbar
 "Themes
 Plug 'EdenEast/nightfox.nvim'
-Plug 'arcticicestudio/nord-vim'
 Plug 'sainnhe/sonokai'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'ayu-theme/ayu-vim'
 call plug#end()
+
+let g:python_3_host_prog = '/usr/bin/python/'
 
 " Key bindings
 nnoremap <C-;> :Autoformat<CR>
@@ -63,24 +66,24 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
-"Fugative gitlab 
+"Fugative gitlab
 let g:fugitive_gitlab_domains = ['https://gitlab.enovate.co.uk/']
 
 " COC Tab Remaps
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+            \ coc#pum#visible() ? coc#pum#next(1) :
+            \ CheckBackspace() ? "\<Tab>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice.
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " COC go to definition
@@ -106,11 +109,11 @@ xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
 function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
+    if CocAction('hasProvider', 'hover')
+        call CocActionAsync('doHover')
+    else
+        call feedkeys('K', 'in')
+    endif
 endfunction
 
 " Default split to horizontal
@@ -161,23 +164,19 @@ set smartcase
 set clipboard+=unnamedplus
 
 "
+" Colour Scheme
+set t_Co=256
+set background=dark
+let g:nord_disable_background = v:true
+highlight Normal ctermbg=NONE
+highlight nonText ctermbg=NONE
+colorscheme nord
+
+"
 " Nvim GUI Customizations
 "
 hi statusline ctermbg=NONE cterm=NONE
 syntax on
-set t_Co=256
-
-
-" Important!!
-if has('termguicolors')
-    set termguicolors
-endif
-
-"
-" Colour Scheme
-" 
-let g:edge_style = 'aura'
-colorscheme onehalfdark
 
 " Hop
 lua << EOF
@@ -190,19 +189,19 @@ EOF
 
 lua << EOF
 require('telescope').setup{
-    defaults = {
-        file_ignore_patterns = {
-            "vendor", 
-            "node_modules", 
-            ".git",
-        }
+defaults = {
+    file_ignore_patterns = {
+        "vendor",
+        "node_modules",
+        ".git",
+    }
     },
-    pickers = {
-        live_grep = {
-            additional_args = function(opts)
-            return {"--hidden"}
-            end
-        },
+pickers = {
+    live_grep = {
+        additional_args = function(opts)
+        return {"--hidden"}
+        end
     },
+},
 }
 EOF
