@@ -28,6 +28,8 @@ Plug 'windwp/nvim-autopairs'
 Plug 'sainnhe/edge'
 Plug 'brooth/far.vim'
 Plug 'vimpostor/vim-tpipeline' "Integrates Nvim statusbar inside tmux statusbar
+"Tags
+Plug 'preservim/tagbar'
 "Tabs
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
@@ -59,9 +61,14 @@ nnoremap <C-l> :BufferNext<CR>
 
 " Nerd Tree
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
+
+" Tagbar
+nnoremap <C-n> :TagbarToggle<CR>
+let g:tagbar_autoclose=1
+let g:tagbar_compact=1
+
 
 " Tab Settings
 set tabstop=4
