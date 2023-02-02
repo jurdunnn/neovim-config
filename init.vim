@@ -19,6 +19,7 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'jremmen/vim-ripgrep'
 Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
+Plug 'chentoast/marks.nvim' " Add visual indicators for marks
 Plug 'sindrets/diffview.nvim'
 Plug 'noahfrederick/vim-laravel'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
@@ -198,6 +199,24 @@ colorscheme onehalfdark
 " Hop
 lua << EOF
 require'hop'.setup()
+EOF
+
+lua << EOF
+require'marks'.setup {
+    default_mappings = true,
+    builtin_marks = { ".", "<", ">", "^" },
+    cyclic = true,
+    force_write_shada = false,
+    refresh_interval = 250,
+    sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
+    excluded_filetypes = {},
+    bookmark_0 = {
+        sign = "⚑",
+        virt_text = "hello world",
+        annotate = false,
+    },
+    mappings = {}
+}
 EOF
 
 lua << EOF
