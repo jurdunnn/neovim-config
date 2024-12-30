@@ -12,17 +12,40 @@
     "phpstan.neonLint.enable": true,
     "prettier.disableLanguages": ["html"],
     "tailwindCSS.headwind.runOnSave": false,
-    "diagnostic.floatConfig": {
-        "border": true
-    },
+    "suggest.completionItemKindLabels": {
+	  "text": "text",
+	  "method": "method",
+	  "function": "function",
+	  "constructor": "constructor",
+	  "field": "field",
+	  "variable": "variable",
+	  "class": "class",
+	  "interface": "interface",
+	  "module": "module",
+	  "property": "property",
+	  "unit": "unit",
+	  "value": "value",
+	  "enum": "enum",
+	  "keyword": "keyword",
+	  "snippet": "snippet",
+	  "color": "color",
+	  "file": "file",
+	  "reference": "reference",
+	  "folder": "folder",
+	  "enumMember": "enum member",
+	  "constant": "constant",
+	  "struct": "struct",
+	  "event": "event",
+	  "operator": "operator",
+	  "typeParameter": "type",
+	  "default": "default"
+	},
+    "suggest.labelMaxLength": 50,
     "headwind.runOnSave": false,
     "diagnostic.format": "%message [%source]",
     "diagnostic.virtualText": true,
     "diagnostic.checkCurrentLine": true,
     "diagnostic.separateRelatedInformationAsDiagnostics": true,
-    "hover.floatConfig": {
-        "border": true
-    },
     "list.normalMappings": {
         "<C-c>": "do:exit"
     },
@@ -33,12 +56,25 @@
     "suggest.detailField": "abbr",
     "suggest.defaultSortMethod": "none",
     "suggest.selection": "recentlyUsedByPrefix",
-    "suggest.floatConfig": {
-        "border": true
-    },
+    "languageserver": {},
     "signature.floatConfig": {
-        "rounded": true,
+        "title": " Signature",
+        "highlight": "CocSymbol",
+        "border": true,
+    },
+    "diagnostic.floatConfig": {
+        "title": " Diagnostics",
+        "highlight": "CocSymbol",
+        "border": true,
+    },
+    "hover.floatConfig": {
+        "title": " Description",
+        "highlight": "CocSymbol",
         "border": true
     },
-    "languageserver": {}
+    "suggest.floatConfig": {
+        "title": " Suggest",
+        "highlight": "CocSymbol",
+        "border": true
+    },
 }

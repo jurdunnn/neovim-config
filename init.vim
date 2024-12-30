@@ -1,3 +1,5 @@
+set termguicolors
+
 source ~/.config/nvim/plug.vim " Load the plugin manager
 source ~/.config/nvim/keybindings.vim " Load the keybindings
 source ~/.config/nvim/plugin-settings.vim " Load the plugin settings
@@ -27,13 +29,7 @@ syntax on " Enable syntax highlighting
 set t_Co=256 " Enable 256 colors
 set timeoutlen=2000 " Set the timeout length for leader key
 
-" Enable 24-bit RGB color in the TUI
-if has('termguicolors')
-    set termguicolors
-endif
-
-" colorscheme vscode
-colorscheme onedark_vivid
+colorscheme cyberdream
 
 " make test commands execute using dispatch.vim
 let test#strategy = "neovim"
