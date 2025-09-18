@@ -105,8 +105,8 @@ LARAVEL (\l*):
   \lf         - Create PHP file
 
 COMPLETION (Insert mode):
-  <Tab>       - Next completion / Accept
-  <S-Tab>     - Previous completion
+  <Tab>       - Confirm CoC, jump snippet, or accept Copilot
+  <S-Tab>     - Previous completion / snippet back
   <CR>        - Confirm completion
   <C-J>       - Accept Copilot (Insert mode)
   <C-L>       - Accept Copilot word (Insert mode)
@@ -116,6 +116,40 @@ COMPLETION (Insert mode):
 
 -- Core keybindings - All keybindings centralized for easy management
 local map = vim.keymap.set
+
+local function should_insert_tab()
+  local col = vim.fn.col('.') - 1
+  if col <= 0 then
+    return true
+  end
+  return vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+end
+
+local function termcodes(key)
+  return vim.api.nvim_replace_termcodes(key, true, true, true)
+end
+
+local function coc_snippet_jump()
+  local ok, jumpable = pcall(function()
+    return vim.fn['coc#expandableOrJumpable']()
+  end)
+  if ok and jumpable == 1 then
+    return termcodes('<Plug>(coc-snippets-expand-jump)')
+  end
+end
+
+local function copilot_accept_tab()
+  local ok, accepted = pcall(function()
+    return vim.fn['copilot#Accept']('<Tab>')
+  end)
+  if not ok or not accepted or accepted == '' then
+    return nil
+  end
+  if accepted == '<Tab>' or accepted == '\t' then
+    return nil
+  end
+  return accepted
+end
 
 -- Use default leader key (backslash \)
 
@@ -247,24 +281,64 @@ map("n", "<leader>lf", ":PhpCreateFile<CR>", { desc = "Create PHP file" })
 -- COMPLETION & INSERT MODE - Autocomplete and AI assistance
 --═══════════════════════════════════════════════════════════════════════════════════
 
--- COC completion
-map("i", "<TAB>", function()
-    if vim.fn["coc#pum#visible"]() == 1 then
-        return vim.fn["coc#pum#next"](1)
-    elseif vim.fn.col('.') == 1 or vim.fn.getline('.'):sub(vim.fn.col('.') - 1, vim.fn.col('.') - 1):match('%s') then
-        return "<Tab>"
-    else
-        return vim.fn["coc#refresh"]()
-    end
-end, { expr = true, silent = true, desc = "COC tab completion" })
+pcall(vim.keymap.del, 'i', '<Tab>')
+pcall(vim.keymap.del, 'i', '<S-Tab>')
 
-map("i", "<S-TAB>", function()
+-- COC completion
+map("i", "<Tab>", function()
+    if vim.fn["coc#pum#visible"]() == 1 then
+        return vim.fn["coc#pum#confirm"]()
+    end
+
+    if vim.fn.pumvisible() == 1 then
+        return termcodes('<C-y>')
+    end
+
+    local snippet_jump = coc_snippet_jump()
+    if snippet_jump then
+        return snippet_jump
+    end
+
+    local copilot_accept = copilot_accept_tab()
+    if copilot_accept then
+        return copilot_accept
+    end
+
+    if should_insert_tab() then
+        return termcodes('<Tab>')
+    end
+
+    return vim.fn["coc#refresh"]()
+end, {
+    expr = true,
+    silent = true,
+    replace_keycodes = false,
+    desc = "Confirm completion, snippet, or Copilot",
+})
+
+map("i", "<S-Tab>", function()
     if vim.fn["coc#pum#visible"]() == 1 then
         return vim.fn["coc#pum#prev"](1)
-    else
-        return "<C-h>"
     end
-end, { expr = true, desc = "COC shift-tab completion" })
+
+    local ok, jumpable = pcall(function()
+        return vim.fn['coc#jumpable'](-1)
+    end)
+    if ok and jumpable == 1 then
+        return termcodes('<Plug>(coc-snippets-jump-prev)')
+    end
+
+    if vim.fn.pumvisible() == 1 then
+        return termcodes('<C-p>')
+    end
+
+    return termcodes('<C-h>')
+end, {
+    expr = true,
+    silent = true,
+    replace_keycodes = false,
+    desc = "Previous completion or snippet back",
+})
 
 map("i", "<CR>", function()
     if vim.fn["coc#pum#visible"]() == 1 then

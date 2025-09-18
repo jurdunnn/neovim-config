@@ -3,6 +3,11 @@
 local opt = vim.opt
 local g = vim.g
 
+-- GitHub Copilot global settings (set before plugin loads)
+g.copilot_no_tab_map = true
+g.copilot_assume_mapped = true
+g.copilot_tab_fallback = ""
+
 -- Display
 opt.termguicolors = true
 opt.number = true
