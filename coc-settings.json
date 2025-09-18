@@ -7,9 +7,10 @@
     "coc.preferences.formatOnSave": false,
     "coc.preferences.willSaveHandlerTimeout": 1000,
     "coc.preferences.enableLinkedEditing": true,
-    "phpstan.enable": true,
-    "phpstan.level": 5,
-    "phpstan.neonLint.enable": true,
+    "phpstan.enable": false,
+    "phpstan.level": 2,
+    "phpstan.neonLint.enable": false,
+    "intelephense.environment.phpVersion": "8.2.0",
     "prettier.disableLanguages": ["html"],
     "tailwindCSS.headwind.runOnSave": false,
     "suggest.completionItemKindLabels": {

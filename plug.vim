@@ -33,12 +33,13 @@ Plug 'nvim-lualine/lualine.nvim' " Statusline
 Plug 'vimpostor/vim-tpipeline' "Integrates Nvim statusbar inside tmux statusbar
 Plug 'preservim/tagbar'
 Plug 'nvim-tree/nvim-web-devicons'
-Plug 'romgrk/barbar.nvim', { 'commit': '79f7d16578a167bdf5355725551ef7d90613a601' }
-Plug 'nvim-treesitter/nvim-treesitter', { 'commit': 'f197a15b0d1e8d555263af20add51450e5aaa1f0' }
+Plug 'romgrk/barbar.nvim'
+Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'nvim-neotest/neotest'
 Plug 'theutz/neotest-pest'
 Plug 'vim-test/vim-test' "Test runner
+Plug 'greggh/claude-code.nvim'
 
 "Themes
 Plug 'NTBBloodbath/doom-one.nvim'
