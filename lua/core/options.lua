@@ -29,6 +29,12 @@ opt.smartcase = true
 -- Clipboard
 opt.clipboard:append("unnamedplus")
 
+-- Folding
+opt.foldcolumn = "0"
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.foldenable = true
+
 -- Spell checking
 opt.spell = true
 opt.spelllang = { "en", "cjk" }

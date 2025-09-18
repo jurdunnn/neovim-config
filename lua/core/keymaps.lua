@@ -125,7 +125,7 @@ local map = vim.keymap.set
 
 map("n", "<BS>", "<C-^>", { desc = "Switch between files" })
 map("n", "<Space>", ":noh<CR>", { desc = "Clear search highlight", silent = true })
-map("n", "K", ":call ShowDocumentation()<CR>", { desc = "Show documentation", silent = true })
+map("n", "K", "<cmd>lua ShowDocumentation()<CR>", { desc = "Show documentation", silent = true })
 
 -- Buffer navigation
 map("n", "<C-b>", ":Buffers<CR>", { desc = "Show buffers" })
