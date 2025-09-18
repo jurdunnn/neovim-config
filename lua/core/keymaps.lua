@@ -1,120 +1,251 @@
--- Core keybindings
+--[[
+═══════════════════════════════════════════════════════════════════════════════════
+                           NEOVIM KEYBINDINGS CHEATSHEET
+═══════════════════════════════════════════════════════════════════════════════════
 
+ESSENTIALS (no leader):
+  <BS>        - Switch between files (alternate)
+  <Space>     - Clear search highlight
+  K           - Show documentation
+  <C-h/l>     - Navigate buffers (previous/next)
+  <C-b>       - Show buffers list
+  <C-;>       - Autoformat
+  <C-Space>   - Flash jump to word
+  <C-x>       - Flash treesitter jump
+  <C-,>       - Toggle Claude Code (normal/terminal mode)
+
+LSP & CODE NAVIGATION:
+  gd          - Go to definition
+  gy          - Go to type definition
+  gi          - Go to implementation
+  gr          - Go to references
+  \rn         - Rename symbol
+  \f          - Format selected text
+
+SEARCH & NAVIGATION (\f*):
+  \ff         - Find files
+  \fg         - Live grep (search in files)
+  \fb         - Buffers
+
+FILE EXPLORER (\n*):
+  \n          - Focus file tree
+  \nt         - Toggle file tree
+  \nf         - Find current file in tree
+
+GIT OPERATIONS (\g*):
+  \gaf        - Git add current file
+  \gaa        - Git add all
+  \grf        - Git restore current file
+  \gra        - Git restore all
+  \gg         - Neogit (Git interface)
+  \gb         - Toggle git blame
+
+DIFFVIEW (\d*):
+  \dvo        - Open diff view
+  \dvc        - Close diff view
+  \dvl        - Diff view log
+  \dvr        - Refresh diff view
+  \dvh        - File history
+
+AI ASSISTANTS:
+  ChatGPT (\cg*):
+    \cgc      - Complete code
+    \cge      - Edit with instructions
+    \cgs      - Summarize
+    \cgp      - Optimize code
+    \cgd      - Add docstring
+    \cgt      - Add tests
+    \cgx      - Explain code
+    \cgo      - Open ChatGPT
+
+  Claude Code (\c*):
+    \cc       - Open Claude Code
+    \cC       - Continue conversation
+    \cV       - Verbose mode
+
+  GP.nvim (GPT-4) (\g*):
+    \ga       - GP Append
+    \gr       - GP Rewrite
+    \go       - GP New Chat
+    \gs       - GP Summarize
+    \ge       - GP Explain
+    \gp       - GP Optimize
+    \gd       - GP Document
+    \gt       - GP Test
+    \gf       - GP Fix
+
+TESTING (\t*):
+  \tf         - Test file
+  \ta         - Test suite
+  \tn         - Test nearest
+  \tl         - Test last
+  \tv         - Test visit
+
+DIAGNOSTICS (\x*):
+  \xx         - Toggle diagnostics panel
+  \xw         - Workspace diagnostics
+  \xd         - Document diagnostics
+  \xl         - Location list
+  \xq         - Quickfix list
+  \xs         - Symbols
+  \xr         - LSP references
+
+HARPOON (\h*):
+  \ha         - Add file to Harpoon
+  \hh         - Harpoon menu
+  \h1-4       - Jump to Harpoon file 1-4
+
+PROJECT & UTILITIES:
+  \pp         - Projects (Telescope)
+  \sr         - Search and replace (Spectre)
+
+LARAVEL (\l*):
+  \lc         - Create PHP class
+  \ln         - Create namespace
+  \lf         - Create PHP file
+
+COMPLETION (Insert mode):
+  <Tab>       - Next completion / Accept
+  <S-Tab>     - Previous completion
+  <CR>        - Confirm completion
+  <C-J>       - Accept Copilot (Insert mode)
+  <C-L>       - Accept Copilot word (Insert mode)
+
+═══════════════════════════════════════════════════════════════════════════════════
+--]]
+
+-- Core keybindings - All keybindings centralized for easy management
 local map = vim.keymap.set
 
 -- Use default leader key (backslash \)
 
--- General keybindings
+--═══════════════════════════════════════════════════════════════════════════════════
+-- ESSENTIALS - Core functionality without leader
+--═══════════════════════════════════════════════════════════════════════════════════
+
 map("n", "<BS>", "<C-^>", { desc = "Switch between files" })
 map("n", "<Space>", ":noh<CR>", { desc = "Clear search highlight", silent = true })
-
--- Formatting
-map({ "x", "n" }, "<leader>f", "<Plug>(coc-format-selected)", { desc = "Format selected text" })
-map("n", "<C-;>", ":Autoformat<CR>", { desc = "Autoformat" })
+map("n", "K", ":call ShowDocumentation()<CR>", { desc = "Show documentation", silent = true })
 
 -- Buffer navigation
 map("n", "<C-b>", ":Buffers<CR>", { desc = "Show buffers" })
 map("n", "<C-h>", ":BufferPrevious<CR>", { desc = "Previous buffer" })
 map("n", "<C-l>", ":BufferNext<CR>", { desc = "Next buffer" })
 
--- Hop (navigation)
-map("n", "<c-space>", "<cmd>HopWord<CR>", { desc = "Hop to word" })
-map("n", "<c-x>", "<cmd>HopAnywhere<CR>", { desc = "Hop anywhere" })
+-- Quick formatting
+map("n", "<C-;>", ":Autoformat<CR>", { desc = "Autoformat" })
 
--- ChatGPT
-local chatgpt_keymaps = {
-    { "<leader>cgc", ":ChatGPTRun complete_code<CR>", "Complete code" },
-    { "<leader>cge", ":ChatGPTEditWithInstructions<CR>", "Edit with instructions" },
-    { "<leader>cgs", ":ChatGPTRun summarize<CR>", "Summarize" },
-    { "<leader>cgp", ":ChatGPTRun optimize_code<CR>", "Optimize code" },
-    { "<leader>cgd", ":ChatGPTRun docstring<CR>", "Add docstring" },
-    { "<leader>cgt", ":ChatGPTRun add_tests<CR>", "Add tests" },
-    { "<leader>cgx", ":ChatGPTRun explain_code<CR>", "Explain code" },
-    { "<leader>cgo", ":ChatGPT<CR>", "Open ChatGPT" },
-}
+--═══════════════════════════════════════════════════════════════════════════════════
+-- LSP & CODE NAVIGATION - Language server and code actions
+--═══════════════════════════════════════════════════════════════════════════════════
 
-for _, keymap in ipairs(chatgpt_keymaps) do
-    map("n", keymap[1], keymap[2], { desc = keymap[3] })
-end
+-- LSP navigation
+map("n", "gd", "<Plug>(coc-definition)", { desc = "Go to definition", silent = true })
+map("n", "gy", "<Plug>(coc-type-definition)", { desc = "Go to type definition", silent = true })
+map("n", "gi", "<Plug>(coc-implementation)", { desc = "Go to implementation", silent = true })
+map("n", "gr", "<Plug>(coc-references)", { desc = "Go to references", silent = true })
+map("n", "<leader>rn", "<Plug>(coc-rename)", { desc = "Rename symbol", silent = true })
 
--- Tests
-local test_keymaps = {
-    { "<leader>tf", ":TestFile<CR>", "Test file" },
-    { "<leader>ta", ":TestSuite<CR>", "Test suite" },
-    { "<leader>tg", ":TestVisit<CR>", "Test visit" },
-    { "<leader>tn", ":TestNearest<CR>", "Test nearest" },
-}
+-- Formatting
+map({ "x", "n" }, "<leader>f", "<Plug>(coc-format-selected)", { desc = "Format selected text" })
+map("n", "<leader>cp", ":CocCommand prettier.formatFile<CR>", { desc = "Format with Prettier" })
 
-for _, keymap in ipairs(test_keymaps) do
-    map("n", keymap[1], keymap[2], { desc = keymap[3] })
-end
+--═══════════════════════════════════════════════════════════════════════════════════
+-- SEARCH & NAVIGATION - Find files, search content
+--═══════════════════════════════════════════════════════════════════════════════════
 
--- Git
-local git_keymaps = {
-    { "<leader>gaf", ":Git add %:p<CR>", "Git add current file" },
-    { "<leader>grf", ":Git restore --staged %:p<CR>", "Git restore current file" },
-    { "<leader>gaa", ":Git add .<CR>", "Git add all" },
-    { "<leader>gra", ":Git restore --staged .<CR>", "Git restore all" },
-}
+map("n", "<leader>ff", ":Telescope find_files hidden=true<CR>", { desc = "Find files" })
+map("n", "<leader>fg", ":Telescope live_grep<CR>", { desc = "Live grep" })
+map("n", "<leader>fb", ":Telescope buffers<CR>", { desc = "Buffers" })
 
-for _, keymap in ipairs(git_keymaps) do
-    map("n", keymap[1], keymap[2], { desc = keymap[3] })
-end
+--═══════════════════════════════════════════════════════════════════════════════════
+-- FILE EXPLORER - NvimTree operations
+--═══════════════════════════════════════════════════════════════════════════════════
+
+map("n", "<leader>n", ":NvimTreeFocus<CR>", { desc = "NvimTree focus" })
+map("n", "<leader>nt", ":NvimTreeToggle<CR>", { desc = "NvimTree toggle" })
+map("n", "<leader>nf", ":NvimTreeFindFile<CR>", { desc = "NvimTree find file" })
+
+--═══════════════════════════════════════════════════════════════════════════════════
+-- GIT OPERATIONS - Version control
+--═══════════════════════════════════════════════════════════════════════════════════
+
+-- Basic git operations
+map("n", "<leader>gaf", ":Git add %:p<CR>", { desc = "Git add current file" })
+map("n", "<leader>grf", ":Git restore --staged %:p<CR>", { desc = "Git restore current file" })
+map("n", "<leader>gaa", ":Git add .<CR>", { desc = "Git add all" })
+map("n", "<leader>gra", ":Git restore --staged .<CR>", { desc = "Git restore all" })
+
+-- Advanced git tools
+map("n", "<leader>gg", ":Neogit<CR>", { desc = "Neogit" })
+map("n", "<leader>gb", ":GitBlameToggle<CR>", { desc = "Toggle git blame" })
 
 -- Diffview
-local diffview_keymaps = {
-    { "<leader>dvo", ":DiffviewOpen<CR>", "Diffview open" },
-    { "<leader>dvc", ":DiffviewClose<CR>", "Diffview close" },
-    { "<leader>dvl", ":DiffviewLog<CR>", "Diffview log" },
-    { "<leader>dvr", ":DiffviewRefresh<CR>", "Diffview refresh" },
-}
+map("n", "<leader>dvo", ":DiffviewOpen<CR>", { desc = "Diffview open" })
+map("n", "<leader>dvc", ":DiffviewClose<CR>", { desc = "Diffview close" })
+map("n", "<leader>dvl", ":DiffviewLog<CR>", { desc = "Diffview log" })
+map("n", "<leader>dvr", ":DiffviewRefresh<CR>", { desc = "Diffview refresh" })
+map("n", "<leader>dvh", ":DiffviewFileHistory<CR>", { desc = "Diffview file history" })
 
-for _, keymap in ipairs(diffview_keymaps) do
-    map("n", keymap[1], keymap[2], { desc = keymap[3] })
-end
+--═══════════════════════════════════════════════════════════════════════════════════
+-- AI ASSISTANTS - ChatGPT, Claude, and GP.nvim
+--═══════════════════════════════════════════════════════════════════════════════════
 
--- Telescope
-local telescope_keymaps = {
-    { "<leader>ff", ":Telescope find_files hidden=true<CR>", "Find files" },
-    { "<leader>fg", ":Telescope live_grep<CR>", "Live grep" },
-    { "<leader>fb", ":Telescope buffers<CR>", "Buffers" },
-}
+-- ChatGPT operations
+map("n", "<leader>cgc", ":ChatGPTRun complete_code<CR>", { desc = "Complete code" })
+map("n", "<leader>cge", ":ChatGPTEditWithInstructions<CR>", { desc = "Edit with instructions" })
+map("n", "<leader>cgs", ":ChatGPTRun summarize<CR>", { desc = "Summarize" })
+map("n", "<leader>cgp", ":ChatGPTRun optimize_code<CR>", { desc = "Optimize code" })
+map("n", "<leader>cgd", ":ChatGPTRun docstring<CR>", { desc = "Add docstring" })
+map("n", "<leader>cgt", ":ChatGPTRun add_tests<CR>", { desc = "Add tests" })
+map("n", "<leader>cgx", ":ChatGPTRun explain_code<CR>", { desc = "Explain code" })
+map("n", "<leader>cgo", ":ChatGPT<CR>", { desc = "Open ChatGPT" })
 
-for _, keymap in ipairs(telescope_keymaps) do
-    map("n", keymap[1], keymap[2], { desc = keymap[3] })
-end
+-- Claude Code
+map("n", "<leader>cc", ":ClaudeCode<CR>", { desc = "Open Claude Code" })
+-- Note: \cC and \cV are handled by plugin's internal keymaps
 
--- NERDTree
-local nerdtree_keymaps = {
-    { "<leader>n", ":NERDTreeFocus<CR>", "NERDTree focus" },
-    { "<leader>nt", ":NERDTreeToggle<CR>", "NERDTree toggle" },
-    { "<leader>nf", ":NERDTreeFind<CR>", "NERDTree find" },
-}
+--═══════════════════════════════════════════════════════════════════════════════════
+-- TESTING - Run tests at various levels
+--═══════════════════════════════════════════════════════════════════════════════════
 
-for _, keymap in ipairs(nerdtree_keymaps) do
-    map("n", keymap[1], keymap[2], { desc = keymap[3] })
-end
+map("n", "<leader>tf", ":TestFile<CR>", { desc = "Test file" })
+map("n", "<leader>ta", ":TestSuite<CR>", { desc = "Test suite" })
+map("n", "<leader>tg", ":TestVisit<CR>", { desc = "Test visit" })
+map("n", "<leader>tn", ":TestNearest<CR>", { desc = "Test nearest" })
+map("n", "<leader>tl", ":TestLast<CR>", { desc = "Test last" })
+map("n", "<leader>tv", ":TestVisit<CR>", { desc = "Test visit" })
 
--- COC navigation
-local coc_keymaps = {
-    { "gd", "<Plug>(coc-definition)", "Go to definition", silent = true },
-    { "gy", "<Plug>(coc-type-definition)", "Go to type definition", silent = true },
-    { "gi", "<Plug>(coc-implementation)", "Go to implementation", silent = true },
-    { "gr", "<Plug>(coc-references)", "Go to references", silent = true },
-    { "<leader>rn", "<Plug>(coc-rename)", "Rename", silent = true },
-    { "<leader>cp", ":CocCommand prettier.formatFile<CR>", "Format with Prettier" },
-}
+--═══════════════════════════════════════════════════════════════════════════════════
+-- DIAGNOSTICS - View and navigate code issues
+--═══════════════════════════════════════════════════════════════════════════════════
 
-for _, keymap in ipairs(coc_keymaps) do
-    local opts = { desc = keymap[3] }
-    if keymap.silent then
-        opts.silent = true
-    end
-    map("n", keymap[1], keymap[2], opts)
-end
+map("n", "<leader>xx", ":Trouble diagnostics toggle<CR>", { desc = "Toggle Trouble Diagnostics" })
+map("n", "<leader>xw", ":Trouble diagnostics toggle<CR>", { desc = "Workspace diagnostics" })
+map("n", "<leader>xd", ":Trouble diagnostics toggle filter.buf=0<CR>", { desc = "Document diagnostics" })
+map("n", "<leader>xl", ":Trouble loclist toggle<CR>", { desc = "Location list" })
+map("n", "<leader>xq", ":Trouble qflist toggle<CR>", { desc = "Quickfix list" })
+map("n", "<leader>xs", ":Trouble symbols toggle<CR>", { desc = "Symbols (Trouble)" })
+map("n", "<leader>xr", ":Trouble lsp_references toggle<CR>", { desc = "LSP References" })
 
--- Documentation
-map("n", "K", ":call ShowDocumentation()<CR>", { desc = "Show documentation", silent = true })
+--═══════════════════════════════════════════════════════════════════════════════════
+-- PROJECT & UTILITIES - Project management and tools
+--═══════════════════════════════════════════════════════════════════════════════════
+
+-- Search and replace
+map("n", "<leader>sr", ":lua require('spectre').toggle()<CR>", { desc = "Search and replace" })
+
+--═══════════════════════════════════════════════════════════════════════════════════
+-- LARAVEL DEVELOPMENT - PHP and Laravel specific tools
+--═══════════════════════════════════════════════════════════════════════════════════
+
+map("n", "<leader>lc", ":PhpCreateClass<CR>", { desc = "Create PHP class" })
+map("n", "<leader>ln", ":PhpCreateNamespace<CR>", { desc = "Create PHP namespace" })
+map("n", "<leader>lf", ":PhpCreateFile<CR>", { desc = "Create PHP file" })
+
+--═══════════════════════════════════════════════════════════════════════════════════
+-- COMPLETION & INSERT MODE - Autocomplete and AI assistance
+--═══════════════════════════════════════════════════════════════════════════════════
 
 -- COC completion
 map("i", "<TAB>", function()
@@ -142,3 +273,15 @@ map("i", "<CR>", function()
         return "<C-g>u<CR><c-r>=coc#on_enter()<CR>"
     end
 end, { expr = true, silent = true, desc = "COC enter completion" })
+
+--═══════════════════════════════════════════════════════════════════════════════════
+-- PLUGIN-HANDLED KEYBINDINGS - These are set by the plugins themselves:
+--═══════════════════════════════════════════════════════════════════════════════════
+-- Flash.nvim:      <C-Space>, <C-x>, S
+-- Harpoon:         \ha, \hh, \h1-4
+-- GP.nvim:         \ga, \gr, \go, \gs, \ge, \gp, \gd, \gt, \gf
+-- Claude Code:     <C-,>, \cC, \cV
+-- Copilot:         <C-J>, <C-L> (insert mode)
+-- Project.nvim:    \pp
+-- Telescope:       (various extensions)
+--═══════════════════════════════════════════════════════════════════════════════════
