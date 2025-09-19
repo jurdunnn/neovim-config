@@ -47,49 +47,27 @@ return {
     end,
   },
 
-  -- Claude Code integration
+  -- Claude Code integration (Advanced WebSocket MCP Protocol)
   {
-    "greggh/claude-code.nvim",
+    "coder/claudecode.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "ClaudeCode" },
     keys = {
-      { "<C-,>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "Toggle Claude Code" },
+      { "<C-,>", "<cmd>ClaudeCode toggle<cr>", mode = { "n", "t" }, desc = "Toggle Claude Code" },
+      { "<leader>cc", "<cmd>ClaudeCode toggle<cr>", desc = "Open Claude Code" },
     },
     config = function()
-      require("claude-code").setup({
-        window = {
-          split_ratio = 0.3,
-          position = "botright",
-          enter_insert = true,
-          hide_numbers = true,
-          hide_signcolumn = true,
+      require("claudecode").setup({
+        -- Terminal configuration
+        terminal = {
+          split_side = "right",
+          split_width_percentage = 0.3,
+          auto_close = false,
         },
-        refresh = {
-          enable = true,
-          updatetime = 100,
-          timer_interval = 1000,
-          show_notifications = true,
-        },
-        git = {
-          use_git_root = true,
-        },
-        command = "claude",
-        command_variants = {
-          continue = "--continue",
-          resume = "--resume",
-          verbose = "--verbose",
-        },
-        keymaps = {
-          toggle = {
-            normal = "<C-,>",
-            terminal = "<C-,>",
-            variants = {
-              continue = "<leader>cC",
-              verbose = "<leader>cV",
-            },
-          },
-          window_navigation = true,
-          scrolling = true,
-        }
+        -- Working directory setup
+        git_repo_cwd = true,
+        -- Focus terminal after sending context
+        focus_after_send = true,
       })
     end,
   },
