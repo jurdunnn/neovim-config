@@ -50,9 +50,15 @@ alpha.setup(dashboard.opts)
 vim.api.nvim_create_autocmd("User", {
   pattern = "AlphaReady",
   callback = function()
-    vim.cmd([[
-      set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
-      set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
-    ]])
+    vim.o.showtabline = 0
+    vim.o.laststatus = 0
+
+    vim.api.nvim_create_autocmd("BufUnload", {
+      buffer = 0,
+      callback = function()
+        vim.o.showtabline = 2
+        vim.o.laststatus = 3
+      end,
+    })
   end,
 })

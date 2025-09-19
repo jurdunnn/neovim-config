@@ -217,13 +217,13 @@ return {
 
   -- Project management
   {
-    "ahmedkhalf/project.nvim",
+    "DrKJeff16/project.nvim",
     event = "VeryLazy",
     keys = {
       { "<leader>pp", "<cmd>Telescope projects<cr>", desc = "Projects" },
     },
     config = function()
-      require("project_nvim").setup({
+      require("project").setup({
         detection_methods = { "lsp", "pattern" },
         patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "composer.json" },
         ignore_lsp = {},

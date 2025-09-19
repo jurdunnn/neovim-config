@@ -47,12 +47,12 @@ vim.api.nvim_create_user_command("Gcp", git_commit_and_push, { desc = "Git commi
 -- COC documentation function (needed for keybinding)
 function ShowDocumentation()
     local cw = vim.fn.expand('<cword>')
-    if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
-        vim.api.nvim_command('h ' .. cw)
+    if vim.fn.index({'vim', 'help'}, vim.api.nvim_get_option_value('filetype', { buf = 0 })) >= 0 then
+        vim.cmd('h ' .. cw)
     elseif vim.api.nvim_eval('coc#rpc#ready()') then
         vim.fn.CocActionAsync('doHover')
     else
-        vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
+        vim.cmd('!' .. vim.o.keywordprg .. ' ' .. cw)
     end
 end
 
