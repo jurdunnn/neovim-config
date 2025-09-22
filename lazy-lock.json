@@ -6,6 +6,7 @@
   "barbar.nvim": { "branch": "master", "commit": "549ee11d97057eae207bafa2c23c315942cca097" },
   "claudecode.nvim": { "branch": "main", "commit": "2e6ea6f2a63cdf4fd3c05e6a054151d46848d319" },
   "coc.nvim": { "branch": "release", "commit": "91c9cf51b174977bafc0ac9964db9679241b491c" },
+  "codex.nvim": { "branch": "main", "commit": "0bb28eb7017e02600a985a627140595900610fc8" },
   "copilot.vim": { "branch": "release", "commit": "dfe0a3a1c256167d181488a73ec6ccab8d8931a9" },
   "cyberdream.nvim": { "branch": "main", "commit": "caf4f5e57f8d5e0bb75fe98f4f67965b1fb3326c" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
