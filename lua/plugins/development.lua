@@ -214,31 +214,4 @@ return {
       })
     end,
   },
-
-  -- Project management
-  {
-    "DrKJeff16/project.nvim",
-    event = "VeryLazy",
-    keys = {
-      { "<leader>pp", "<cmd>Telescope projects<cr>", desc = "Projects" },
-    },
-    config = function()
-      require("project").setup({
-        detection_methods = { "lsp", "pattern" },
-        patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "composer.json" },
-        ignore_lsp = {},
-        exclude_dirs = {},
-        show_hidden = false,
-        silent_chdir = true,
-        scope_chdir = "global",
-        datapath = vim.fn.stdpath("data"),
-      })
-
-      -- Safely load telescope extension with error handling
-      local ok, telescope = pcall(require, "telescope")
-      if ok then
-        pcall(telescope.load_extension, "projects")
-      end
-    end,
-  },
 }
