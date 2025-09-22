@@ -72,6 +72,39 @@ return {
     end,
   },
 
+  -- Codex.nvim - OpenAI Codex integration with floating window
+  {
+    "johnseth97/codex.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = { "Codex", "CodexToggle" },
+    keys = {
+      { "<leader>cx", "<cmd>CodexToggle<cr>", desc = "Toggle Codex window" },
+      { "<leader>co", "<cmd>Codex<cr>", desc = "Open Codex" },
+    },
+    config = function()
+      require("codex").setup({
+        -- Model configuration
+        model = "gpt-4o",
+
+        -- Window configuration matching other plugins
+        window = {
+          width = 0.5,
+          height = 0.6,
+          border = "rounded",
+        },
+
+        -- Keybindings
+        keybinds = {
+          toggle = false, -- Disable default to avoid conflicts
+          close = "<C-q>",
+        },
+
+        -- Auto-install Codex CLI if needed
+        autoinstall = true,
+      })
+    end,
+  },
+
   -- gp.nvim - Advanced AI plugin with GPT-4/Codex support
   {
     "robitx/gp.nvim",
