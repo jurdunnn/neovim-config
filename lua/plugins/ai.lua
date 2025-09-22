@@ -53,8 +53,8 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "ClaudeCode" },
     keys = {
-      { "<C-,>", "<cmd>ClaudeCode toggle<cr>", mode = { "n", "t" }, desc = "Toggle Claude Code" },
-      { "<leader>cc", "<cmd>ClaudeCode toggle<cr>", desc = "Open Claude Code" },
+      { "<C-,>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "Toggle Claude Code" },
+      { "<leader>cc", "<cmd>ClaudeCode<cr>", desc = "Open Claude Code" },
     },
     config = function()
       require("claudecode").setup({
