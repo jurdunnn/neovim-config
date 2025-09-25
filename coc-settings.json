@@ -52,6 +52,7 @@
     "html.suggest.html5": true,
     "html.suggest.angular1": false,
     "html.suggest.ionic": false,
+    "suggest.noselect": false,
     "suggest.completionItemKindLabels": {
 	  "text": "text",
 	  "method": "method",

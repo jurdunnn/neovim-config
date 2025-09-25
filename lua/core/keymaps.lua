@@ -284,36 +284,32 @@ map("n", "<leader>lf", ":PhpCreateFile<CR>", { desc = "Create PHP file" })
 pcall(vim.keymap.del, 'i', '<Tab>')
 pcall(vim.keymap.del, 'i', '<S-Tab>')
 
--- COC completion
+-- Tab for Copilot only
 map("i", "<Tab>", function()
-    if vim.fn["coc#pum#visible"]() == 1 then
-        return vim.fn["coc#pum#confirm"]()
-    end
-
-    if vim.fn.pumvisible() == 1 then
-        return termcodes('<C-y>')
-    end
-
-    local snippet_jump = coc_snippet_jump()
-    if snippet_jump then
-        return snippet_jump
-    end
-
+    -- Try Copilot first
     local copilot_accept = copilot_accept_tab()
     if copilot_accept then
         return copilot_accept
     end
 
+    -- Try snippet jumping
+    local snippet_jump = coc_snippet_jump()
+    if snippet_jump then
+        return snippet_jump
+    end
+
+    -- Default to inserting a tab
     if should_insert_tab() then
         return termcodes('<Tab>')
     end
 
-    return vim.fn["coc#refresh"]()
+    -- Otherwise do nothing special
+    return termcodes('<Tab>')
 end, {
     expr = true,
     silent = true,
     replace_keycodes = false,
-    desc = "Confirm completion, snippet, or Copilot",
+    desc = "Accept Copilot or jump snippet",
 })
 
 map("i", "<S-Tab>", function()
@@ -340,13 +336,15 @@ end, {
     desc = "Previous completion or snippet back",
 })
 
-map("i", "<CR>", function()
-    if vim.fn["coc#pum#visible"]() == 1 then
-        return vim.fn["coc#pum#confirm"]()
-    else
-        return "<C-g>u<CR><c-r>=coc#on_enter()<CR>"
-    end
-end, { expr = true, silent = true, desc = "COC enter completion" })
+vim.keymap.set("i", "<CR>", function()
+  if vim.fn.exists("*coc#pum#visible") == 1 and vim.fn["coc#pum#visible"]() == 1 then
+    return vim.fn["coc#pum#confirm"]()
+  end
+  return vim.api.nvim_replace_termcodes(
+    "<C-g>u<CR><C-r>=coc#on_enter()<CR>",
+    true, true, true
+  )
+end, { expr = true, silent = true })
 
 --═══════════════════════════════════════════════════════════════════════════════════
 -- PLUGIN-HANDLED KEYBINDINGS - These are set by the plugins themselves:
